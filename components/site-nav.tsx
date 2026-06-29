@@ -24,13 +24,13 @@ export default function SiteNav() {
   useEffect(() => {
     async function loadUser() {
       const {
-        data: { user },
-      } = await supabase.auth.getUser()
+        data: { session },
+      } = await supabase.auth.getSession()
       
-      if (!user) return
+      if (!session) return
 
-      setFullName(user.user_metadata.full_name ?? "")
-      setAvatar(user.user_metadata.avatar_url ?? "")
+      setFullName(session.user.user_metadata.full_name ?? "")
+      setAvatar(session.user.user_metadata.avatar_url ?? "")
 
       
     }
@@ -45,10 +45,10 @@ export default function SiteNav() {
   }
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
 
-  if (!user) {
+  if (!session) {
     router.push("/login")
     return
   }

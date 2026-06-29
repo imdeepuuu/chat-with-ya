@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 const NAV = [
   { name: "Home", href: "/" },
   { name: "Write", href: "/write" },
-  { name: "Profile", href: "/login" },
+  { name: "Profile", href: "/profile" },
 ]
 
 export function SiteHeader() {
@@ -105,9 +105,16 @@ export function SiteHeader() {
 
               <hr className="my-2" />
 
-              <button className="block w-full rounded-md px-3 py-2 text-left hover:bg-gray-100">
-                 👤 My Profile
-              </button>
+              <button
+               onClick={() => {
+                setOpen(false)
+                router.push("/profile")
+               }}
+                className="block w-full rounded-md px-3 py-2 text-left hover:bg-gray-100"
+              >
+                👤 My Profile
+              </button>  
+  
 
               <button className="block w-full rounded-md px-3 py-2 text-left hover:bg-gray-100">
                ⚙️ Settings 
