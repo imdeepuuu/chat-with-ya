@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/lib/supabase-browser"
+
+const supabase = createClient()
 import { Heart, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/lib/supabase-browser"
+
+const supabase = createClient()
 import SiteNav from "@/components/site-nav"
 
 interface Profile {

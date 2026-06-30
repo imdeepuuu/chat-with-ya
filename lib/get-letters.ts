@@ -1,15 +1,29 @@
-import { supabase } from "./supabase"
+import { createClient } from "./supabase-server"
 
 export async function getLetters() {
-  const { data, error } = await supabase
-    .from("letters")
-    .select("*")
-    .order("created_at", { ascending: false })
+  const supabase = await createClient()
 
-  if (error) {
-    console.error(error)
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.log("No authenticated user")
     return []
   }
 
-  return data
+  const { data, error } = await supabase
+    .from("letters")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+
+  if (error) return []
+  return data ?? []
+
+  if (error) {
+    return []
+  }
+
+  return data ?? []
 }

@@ -1,9 +1,12 @@
+import DashboardHeader from "@/components/admin/dashboard-header";
+import LetterCard from "@/components/admin/letter-card";
+import StatsCards from "@/components/admin/stats-cards";
 import { createClient } from "@/lib/supabase-server";
 
 export default async function AdminPage() {
   const supabase = await createClient();
 
-  const { data: letters, error } = await supabase
+  const { data: pendingLetters, error } = await supabase
     .from("letters")
     .select("*")
     .eq("status", "pending")
@@ -11,62 +14,58 @@ export default async function AdminPage() {
 
   if (error) {
     return (
-      <div className="p-10 text-red-600">
-        Error: {error.message}
+      <div className="flex min-h-screen items-center justify-center text-red-600">
+        {error.message}
       </div>
     );
   }
 
+  const { count: approvedCount } = await supabase
+    .from("letters")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "approved");
+
+  const { count: rejectedCount } = await supabase
+    .from("letters")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "rejected");
+
   return (
-    <main className="max-w-5xl mx-auto p-10">
-      <h1 className="text-4xl font-bold mb-8">
-        📩 Pending Letters
-      </h1>
+    <main className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50">
+      <div className="mx-auto max-w-7xl p-10">
 
-      {letters?.length === 0 ? (
-        <div className="text-gray-500">
-          No pending letters.
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {letters.map((letter) => (
-            <div
-              key={letter.id}
-              className="rounded-2xl border p-6 shadow-sm"
-            >
-              <h2 className="text-2xl font-bold">
-                {letter.title}
-              </h2>
+        <DashboardHeader />
 
-              <p className="mt-2 text-gray-500">
-                To: {letter.recipient}
-              </p>
+        <StatsCards
+          pending={pendingLetters?.length ?? 0}
+          approved={approvedCount ?? 0}
+          rejected={rejectedCount ?? 0}
+        />
 
-              <p className="text-gray-500">
-                From: {letter.sender}
-              </p>
+        {pendingLetters?.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-pink-300 bg-white/70 p-16 text-center shadow-lg">
+            <div className="text-6xl">💌</div>
 
-              <p className="mt-2">
-                Mood: {letter.mood}
-              </p>
+            <h2 className="mt-6 text-3xl font-bold text-[#342044]">
+              No pending letters
+            </h2>
 
-              <div className="mt-5 whitespace-pre-wrap">
-                {letter.content}
-              </div>
+            <p className="mt-3 text-gray-500">
+              Every submitted letter has already been reviewed.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-8">
+            {pendingLetters.map((letter) => (
+              <LetterCard
+                key={letter.id}
+                letter={letter}
+              />
+            ))}
+          </div>
+        )}
 
-              <div className="flex gap-4 mt-8">
-                <button className="bg-green-600 text-white px-5 py-2 rounded-xl">
-                  ✅ Accept
-                </button>
-
-                <button className="bg-red-600 text-white px-5 py-2 rounded-xl">
-                  ❌ Reject
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      </div>
     </main>
   );
 }

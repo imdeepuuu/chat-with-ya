@@ -1,6 +1,8 @@
 "use client"
 
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/lib/supabase-browser"
+
+const supabase = createClient()
 import { useCallback, useEffect, useRef, useState } from "react"
 import type { MoodId, PaperId } from "./constants"
 import { SiteHeader } from "./site-header"
@@ -142,6 +144,7 @@ export function WriteLetter() {
 
       <div className="relative z-10">
         <SiteHeader />
+        
         <Hero />
 
         <main className="mx-auto max-w-6xl px-4 pb-4">

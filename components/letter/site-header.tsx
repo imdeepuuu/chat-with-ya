@@ -1,9 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/lib/supabase-browser"
 import { Mail, ChevronDown } from "lucide-react"
 import { useRouter } from "next/navigation"
+
+const supabase = createClient()
 
 const NAV = [
   { name: "Home", href: "/" },
@@ -19,26 +21,39 @@ export function SiteHeader() {
 
   useEffect(() => {
     async function loadUser() {
+      console.log("🔥 loadUser called");
       const {
-        data: { user },
-      } = await supabase.auth.getUser()
+        data: { session },
+      } = await supabase.auth.getSession()
+      
+      console.log("Session:", session)
+
+      const user = session?.user
+
+      console.log("User:", user)
 
       if (!user) return
 
-      const { data: profile } = await supabase
+      const { data: profile, error } = await supabase
        .from("profiles")
        .select("username")
        .eq("id", user.id)
-       .single()
+       .maybeSingle()
       
       console.log("Profile:", profile)
-      console.log("Username:", profile?.username)
+      console.log("Error:", error)
       
-      setDisplayName(profile?.username ?? user.user_metadata.full_name ?? "")
+      setDisplayName(
+        profile?.username ||
+        user.user_metadata.full_name ||
+        user.email ||
+        "User"
+      )  
       setAvatar(user.user_metadata.avatar_url ?? "")
     }
     
-    loadUser()
+    console.log("🔥 useEffect started");
+    loadUser();
   }, [])
   
   async function handleLogout() {
