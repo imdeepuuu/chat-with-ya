@@ -1,6 +1,7 @@
 "use client"
 
-import { supabase } from "@/lib/supabase"
+import { useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase-browser"
 import { useState } from "react"
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -9,6 +10,9 @@ import { Label } from "@/components/ui/label"
 import { SocialButtons } from "./social-buttons"
 
 export function LoginCard() {
+  const supabase = createClient()
+  
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -54,7 +58,8 @@ export function LoginCard() {
      if (error) {
       alert(error.message)
      } else {
-      alert("Login successful!")
+      router.push("/write")
+      router.refresh()
     }
          
   }
