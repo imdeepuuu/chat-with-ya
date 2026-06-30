@@ -115,7 +115,7 @@ export function SiteHeader() {
             <div className="absolute right-0 top-16 z-50 w-56 rounded-xl border bg-white p-3 shadow-lg">
               <p className="font-semibold">@{displayName}</p>
               <p className="mb-3 text-sm text-gray-500">
-                Logged in
+                Signed in
               </p>
 
               <hr className="my-2" />
@@ -131,9 +131,7 @@ export function SiteHeader() {
               </button>  
   
 
-              <button className="block w-full rounded-md px-3 py-2 text-left hover:bg-gray-100">
-               ⚙️ Settings 
-              </button>
+              
 
               <button
                onClick={handleLogout}

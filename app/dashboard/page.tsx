@@ -1,4 +1,5 @@
 import { getLetters } from "@/lib/get-letters"
+import Link from "next/link"
 
 export default async function Dashboard() {
   const letters = await getLetters()
@@ -33,9 +34,12 @@ export default async function Dashboard() {
               Your memories, thoughts and dreams deserve a beautiful place.
             </p>
 
-            <button className="mt-8 rounded-full bg-[#F8B6C8] px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:scale-105 hover:bg-[#F49AB5]">
+            <Link
+             href="/write"
+             className="mt-8 inline-block rounded-full bg-[#F8B6C8] px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:scale-105 hover:bg-[#F49AB5]"
+            >
               💌 Write New Letter
-            </button>
+            </Link> 
           </div>
         </div>
       </section>
