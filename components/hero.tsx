@@ -2,9 +2,11 @@
 
 import { Mail, Search, Heart } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export function Hero() {
   const router = useRouter()
+  const [search, setSearch] = useState("")
   return (
     <section className="relative px-4 pt-16 pb-10 md:pt-24">
       {/* soft ambient glow */}
@@ -51,17 +53,29 @@ export function Hero() {
           <div className="glass-card flex items-center gap-3 rounded-full border border-rose-soft/70 py-2 pl-5 pr-2 shadow-[0_14px_40px_-18px_rgba(244,114,182,0.55)] transition-shadow focus-within:shadow-[0_18px_50px_-16px_rgba(244,114,182,0.7)]">
             <Search className="size-5 shrink-0 text-muted-foreground" />
             <input
-              type="search"
-              placeholder="Search someone's name..."
-              aria-label="Search someone's name"
-              className="w-full bg-transparent py-2 text-base text-foreground placeholder:text-muted-foreground/80 focus:outline-none"
-            />
+             type="search"
+             placeholder="Search someone's name..."
+             aria-label="Search someone's name"
+             value={search}
+             onChange={(e) => setSearch(e.target.value)}
+             onKeyDown={(e) => {
+              if (e.key === "Enter" && search.trim()) {
+                router.push(`/search?q=${encodeURIComponent(search.trim())}`)
+              }
+            }}
+             className="w-full bg-transparent py-2 text-base text-foreground placeholder:text-muted-foreground/80 focus:outline-none"
+            />     
             <button
-              type="button"
-              className="hidden shrink-0 rounded-full bg-secondary px-5 py-2.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent sm:block"
+             type="button"
+             onClick={() => {
+              if (search.trim()) {
+                router.push(`/search?q=${encodeURIComponent(search.trim())}`)
+              }
+            }}
+            className="hidden shrink-0 rounded-full bg-secondary px-5 py-2.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent sm:block"
             >
               Search
-            </button>
+            </button>    
           </div>
         </div>
 
