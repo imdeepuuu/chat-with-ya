@@ -1,71 +1,56 @@
-interface PageProps {
+import { notFound } from "next/navigation"
+import { createClient } from "@/lib/supabase-server"
+
+interface Props {
   params: Promise<{
     id: string
   }>
 }
 
-export default async function LetterPage({ params }: PageProps) {
-    const { id } = await params
+export default async function LetterPage({ params }: Props) {
+  const { id } = await params
+
+  const supabase = await createClient()
+
+  const { data: letter } = await supabase
+    .from("letters")
+    .select("*")
+    .eq("id", id)
+    .eq("status", "approved")
+    .single()
+
+  if (!letter) {
+    notFound()
+  }
+
   return (
-    <main className="min-h-screen bg-[#FFF8F2] py-16">
-      <div className="mx-auto max-w-4xl px-6">
+    <main className="min-h-screen bg-[#FFF9F6] px-6 py-12">
+      <div className="mx-auto max-w-3xl rounded-3xl border border-rose-100 bg-white p-10 shadow-xl">
 
-        <div className="rounded-[40px] border border-pink-100 bg-white p-12 shadow-[0_20px_60px_rgba(255,182,193,0.15)]">
+        <span className="rounded-full bg-rose-100 px-4 py-2 text-sm font-medium text-rose-700">
+          💖 {letter.mood}
+        </span>
 
-          <div className="mb-10">
-            <span className="rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
-              💌 Letter
-            </span>
+        <h1 className="mt-8 text-4xl font-bold">
+          {letter.title}
+        </h1>
 
-            <h1 className="mt-6 text-5xl font-bold text-[#3E2C41]">
-              Letter #{id}
-            </h1>
+        <p className="mt-8 text-xl">
+          Dear <strong>{letter.recipient}</strong>,
+        </p>
 
-            <p className="mt-3 text-[#756070]">
-              This page will display the complete letter.
-            </p>
-          </div>
+        <div className="mt-8 whitespace-pre-wrap leading-9 text-gray-700">
+          {letter.content}
+        </div>
 
-          <div className="space-y-6">
+        <div className="mt-12 text-right">
+          <p className="text-gray-500">
+            With love,
+          </p>
 
-            <div>
-              <p className="text-sm uppercase text-[#B28A96]">
-                Recipient
-              </p>
-
-              <h2 className="mt-2 text-2xl font-semibold">
-                Mom
-              </h2>
-            </div>
-
-            <div>
-              <p className="text-sm uppercase text-[#B28A96]">
-                Title
-              </p>
-
-              <h2 className="mt-2 text-2xl font-semibold">
-                Thanks Mom
-              </h2>
-            </div>
-
-            <div>
-              <p className="text-sm uppercase text-[#B28A96]">
-                Letter
-              </p>
-
-              <div className="mt-3 rounded-3xl bg-[#FFF8F2] p-8 leading-9 text-[#4D3E4B]">
-                This is where the complete letter will appear.
-              </div>
-            </div>
-
-            <div className="pt-8">
-              <span className="rounded-full bg-amber-100 px-5 py-2 font-semibold text-amber-700">
-                🟡 Pending Review
-              </span>
-            </div>
-
-          </div>
-
+          <h2 className="mt-2 text-2xl font-semibold">
+            {letter.sender}
+          </h2>
         </div>
 
       </div>
