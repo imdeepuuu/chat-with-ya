@@ -168,3 +168,6 @@
     @apply font-sans;
   }
 }
+.font-script {
+  font-family: var(--font-script), cursive;
+}

@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef } from "react"
+
 import {
   User,
   Feather,
@@ -8,8 +9,6 @@ import {
   Bold,
   Italic,
   Underline,
-  Quote,
-  ImagePlus,
   Smile,
   UploadCloud,
   X,
@@ -19,6 +18,7 @@ import {
   MOODS,
   PAPERS,
   LETTER_COLORS,
+  FONT_STYLES,
   type MoodId,
   type PaperId,
 } from "./constants"
@@ -165,7 +165,7 @@ export function LetterEditor({
                   </button>
                 ))}
                 <span className="mx-1 h-5 w-px bg-border" />
-                {[Quote, ImagePlus, Smile].map((Icon, i) => (
+                {[Smile].map((Icon, i) => (
                   <button
                     key={i}
                     type="button"
@@ -248,6 +248,31 @@ export function LetterEditor({
                   {active ? <Check className="size-5 text-white drop-shadow" /> : null}
                 </span>
                 <span className="text-xs text-foreground/60">{c.label}</span>
+              </button>
+            )
+          })}
+        </div>
+      </SectionCard>
+
+
+
+      {/* ---- Writing Style ---- */}
+      <SectionCard>
+        <Label hint="Choose your writing style">Writing Style</Label>
+        <div className="grid grid-cols-2 gap-3">
+          {FONT_STYLES.map((font) => {
+            const active = state.writingStyle === font.id
+            return (
+              <button
+                key={font.id}
+                type="button"
+                onClick={() => set("writingStyle", font.id as "normal" | "cursive")}
+                className={`rounded-2xl border p-4 text-left transition ${active ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/40"}`}
+              >
+                <p className={font.id === "cursive" ? "font-script text-lg" : "font-sans text-lg"}>{font.label}</p>
+                <p className="mt-1 text-xs text-foreground/60">
+                  {font.id === "normal" ? "Clean and easy to read" : "Looks like a handwritten letter"}
+                </p>
               </button>
             )
           })}

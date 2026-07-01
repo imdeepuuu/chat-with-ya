@@ -9,6 +9,7 @@ interface LetterLayoutProps {
   moodId: string
   paperId: string
   colorId: string
+  writingStyle: "classic" | "handwritten" | "elegant"
   photos?: {
     id: string
     name: string
@@ -24,25 +25,43 @@ export default function LetterLayout({
   moodId,
   paperId,
   colorId,
+  writingStyle,
   photos = [],
 }: LetterLayoutProps) {
-    const paper = {
-        surface: "#ffffff",
-        ruled: false,
-    }
+  // Keep these until we reconnect paper/color.
+  const paper = PAPERS.find((p) => p.id === paperId) ?? PAPERS[0]
 
-    const color = {
-        color: "#f472b6",
-        tint: "#fde7f3",
-    }    
+  const color =
+   LETTER_COLORS.find((c) => c.id === colorId) ?? LETTER_COLORS[0]
+
 
   const mood = MOODS.find((m) => m.id === moodId)
-  const MoodIcon = mood?.icon
+
+  const titleClass =
+  writingStyle === "handwritten"
+    ? "font-script text-4xl font-normal"
+    : writingStyle === "elegant"
+      ? "font-serif text-4xl font-semibold"
+      : "font-heading text-3xl font-semibold"
+
+const bodyClass =
+  writingStyle === "handwritten"
+    ? "font-script text-2xl leading-10"
+    : writingStyle === "elegant"
+      ? "font-serif text-xl leading-9"
+      : "text-xl leading-8"
+
+const signatureClass =
+  writingStyle === "handwritten"
+    ? "font-script text-4xl"
+    : writingStyle === "elegant"
+      ? "font-serif text-3xl italic"
+      : "font-script text-3xl"
 
   return (
     <div className="space-y-3">
       <div
-        className="relative overflow-hidden rounded-[1.75rem] p-7 shadow-[0_28px_70px_-30px_rgba(190,80,130,0.6)] ring-1 ring-black/5"
+        className="relative mx-auto max-w-5xl overflow-hidden rounded-[1.75rem] p-8 shadow-[0_28px_70px_-30px_rgba(190,80,130,0.6)] ring-1 ring-black/5"
         style={{ background: paper.surface }}
       >
         <div
@@ -52,33 +71,24 @@ export default function LetterLayout({
           }}
         />
 
-        {paper.ruled && (
-          <div
-            className="pointer-events-none absolute inset-x-7 bottom-7 top-24"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(120,140,180,0.25) 32px)",
-            }}
-          />
-        )}
+        <div className="relative flex flex-col gap-6">
 
-        <div className="relative">
+          {/* Header */}
+          <div className="flex items-start justify-between">
 
-          <div className="mb-4 flex items-start justify-between gap-3">
-
-            <div className="min-w-0">
+            <div>
 
               {mood && (
                 <span
-                  className="mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium"
+                  className="mb-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium"
                   style={{
                     backgroundColor: `${mood.swatch}33`,
                     color: "#7a3a52",
-                }}
-                 >
-                    💖 {mood.label}
-                 </span>
-                )} 
+                  }}
+                >
+                  💖 {mood.label}
+                </span>
+              )}
 
               <p className="text-sm text-[#9a6b7c]">
                 Dear{" "}
@@ -90,60 +100,75 @@ export default function LetterLayout({
 
             </div>
 
-            <span
-              className="grid size-10 place-items-center rounded-md border-2 border-dashed"
-              style={{
-                borderColor: color.color,
-                backgroundColor: `${color.color}22`,
-              }}
-            >
-              <Heart
-                className="size-5"
-                style={{ color: color.color }}
-                fill="currentColor"
-              />
-            </span>
+            <div className="flex flex-col items-end gap-3">
+
+              <span className="text-sm text-[#9a6b7c]">
+                {new Intl.DateTimeFormat("en-GB").format(new Date())}
+              </span>
+
+              <span
+                className="grid size-10 place-items-center rounded-md border-2 border-dashed"
+                style={{
+                  borderColor: color.color,
+                  backgroundColor: `${color.color}22`,
+                }}
+              >
+                <Heart
+                  className="size-5"
+                  style={{ color: color.color }}
+                  fill="currentColor"
+                />
+              </span>
+
+            </div>
 
           </div>
 
+          {/* Title */}
           {title && (
-            <h3 className="mb-3 font-heading text-2xl font-semibold text-[#5c2738]">
+            <h3 className={`text-[#5c2738] ${titleClass}`}>
               {title}
             </h3>
           )}
 
-          <p className="whitespace-pre-wrap font-script text-xl leading-8 text-[#4f2c39]">
+          {/* Content */}
+          <p
+            className={`whitespace-pre-wrap text-[#4f2c39] ${bodyClass}`}
+              
+          >
             {content ||
               "Your words will bloom here as you write them, just the way you mean them."}
           </p>
 
+          {/* Photos */}
           {photos.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-3">
               {photos.map((photo) => (
                 <img
                   key={photo.id}
                   src={photo.url}
                   alt={photo.name}
-                  className="size-20 rounded-lg object-cover shadow-sm ring-1 ring-black/5"
+                  className="size-20 rounded-lg object-cover shadow"
                 />
               ))}
             </div>
           )}
 
-          <div className="mt-6 text-right">
+          {/* Signature */}
+          <div className="pt-4 text-right">
             <p className="text-sm text-[#9a6b7c]">
               With love,
             </p>
 
-            <p className="font-script text-2xl text-[#7a3a52]">
+            <p
+              className={`text-[#7a3a52] ${signatureClass}`}
+            >
               {sender || "Me"}
             </p>
           </div>
 
         </div>
-
       </div>
-
     </div>
   )
 }

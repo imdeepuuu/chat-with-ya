@@ -32,6 +32,8 @@ export default async function LetterPage({ params }: Props) {
        sender={letter.sender}
        content={letter.content}
        mood={letter.mood}
+       paper={letter.paper}
+       color={letter.color}
        createdAt={letter.created_at}
       /> 
     </main>

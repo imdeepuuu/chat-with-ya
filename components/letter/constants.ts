@@ -116,3 +116,21 @@ export const LETTER_COLORS: LetterColor[] = [
   { id: "cream", label: "Cream", color: "#f0dca6", tint: "#fffaf0" },
   { id: "sage", label: "Sage Green", color: "#a9d4b6", tint: "#f1faf3" },
 ]
+
+export const FONT_STYLES = [
+  {
+    id: "classic",
+    label: "Classic",
+    className: "font-sans",
+  },
+  {
+    id: "handwritten",
+    label: "Handwritten",
+    className: "font-script",
+  },
+  {
+    id: "elegant",
+    label: "Elegant",
+    className: "font-serif",
+  },
+]
