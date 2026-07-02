@@ -71,7 +71,7 @@ const signatureClass =
           }}
         />
 
-        <div className="relative flex flex-col gap-6">
+        <div className="relative flex flex-col gap-4">
 
           {/* Header */}
           <div className="flex items-start justify-between">
@@ -103,7 +103,11 @@ const signatureClass =
             <div className="flex flex-col items-end gap-3">
 
               <span className="text-sm text-[#9a6b7c]">
-                {new Intl.DateTimeFormat("en-GB").format(new Date())}
+                {new Intl.DateTimeFormat("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                }).format(new Date())}  
               </span>
 
               <span
@@ -123,17 +127,18 @@ const signatureClass =
             </div>
 
           </div>
+          <div className="my-2 h-px bg-rose-100" />
 
           {/* Title */}
           {title && (
-            <h3 className={`text-[#5c2738] ${titleClass}`}>
+            <h3 className={`mt-1 mb-2 text-[#5c2738] ${titleClass}`}>
               {title}
             </h3>
           )}
 
           {/* Content */}
           <p
-            className={`whitespace-pre-wrap text-[#4f2c39] ${bodyClass}`}
+            className={`mt-2 whitespace-pre-wrap text-[#4f2c39] ${bodyClass}`}
               
           >
             {content ||
@@ -155,7 +160,7 @@ const signatureClass =
           )}
 
           {/* Signature */}
-          <div className="pt-4 text-right">
+          <div className="pt-2 text-right">
             <p className="text-sm text-[#9a6b7c]">
               With love,
             </p>

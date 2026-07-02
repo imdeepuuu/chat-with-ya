@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase-browser"
 
 const supabase = createClient()
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import type { MoodId, PaperId } from "./constants"
 import { SiteHeader } from "./site-header"
 import { Hero } from "./hero"
@@ -21,6 +22,7 @@ export type LetterState = {
   mood: MoodId
   paper: PaperId
   color: string
+  writingStyle: "classic" | "handwritten" | "elegant"
 }
 
 export type Photo = {
@@ -32,6 +34,7 @@ export type Photo = {
 const MAX_PHOTOS = 5
 
 export function WriteLetter() {
+  const searchParams = useSearchParams()
   const [state, setState] = useState<LetterState>({
     recipient: "",
     sender: "",
@@ -40,6 +43,7 @@ export function WriteLetter() {
     mood: "love",
     paper: "plain",
     color: "pink",
+    writingStyle: "classic",
   })
   const [photos, setPhotos] = useState<Photo[]>([])
   const [toast, setToast] = useState<string | null>(null)
@@ -68,7 +72,17 @@ export function WriteLetter() {
     }
     
     createProfileIfNeeded()
-  }, [])  
+  }, []) 
+  
+  useEffect(() => {
+    const recipient = searchParams.get("recipient")
+    if (recipient) {
+      setState((prev) => ({
+        ...prev,
+        recipient,
+      }))
+    }
+  }, [searchParams])      
 
   const set = useCallback(
     <K extends keyof LetterState>(key: K, value: LetterState[K]) => {
@@ -117,6 +131,8 @@ export function WriteLetter() {
         setToast("Please login first.")
         return
       }  
+      console.log("Writing Style:", state.writingStyle);
+      console.log("Photos:", photos);
     const { error } = await supabase.from("letters").insert({
       user_id: user.id,
       recipient: state.recipient,
@@ -126,6 +142,8 @@ export function WriteLetter() {
        mood: state.mood,
        paper: state.paper,
        color: state.color,
+       writing_style: state.writingStyle,
+       photos: photos,
        status: "pending",
       })
       
