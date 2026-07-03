@@ -18,7 +18,6 @@ import {
   MOODS,
   PAPERS,
   LETTER_COLORS,
-  FONT_STYLES,
   type MoodId,
   type PaperId,
 } from "./constants"
@@ -254,31 +253,6 @@ export function LetterEditor({
         </div>
       </SectionCard>
 
-
-
-      {/* ---- Writing Style ---- */}
-      <SectionCard>
-        <Label hint="Choose your writing style">Writing Style</Label>
-        <div className="grid grid-cols-2 gap-3">
-          {FONT_STYLES.map((font) => {
-            const active = state.writingStyle === font.id
-            return (
-              <button
-                key={font.id}
-                type="button"
-                onClick={() => set("writingStyle", font.id as "normal" | "cursive")}
-                className={`rounded-2xl border p-4 text-left transition ${active ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/40"}`}
-              >
-                <p className={font.id === "cursive" ? "font-script text-lg" : "font-sans text-lg"}>{font.label}</p>
-                <p className="mt-1 text-xs text-foreground/60">
-                  {font.id === "normal" ? "Clean and easy to read" : "Looks like a handwritten letter"}
-                </p>
-              </button>
-            )
-          })}
-        </div>
-      </SectionCard>
-
       {/* ---- Attach memories ---- */}
       <SectionCard>
         <Label hint="(Optional)">Attach Memories</Label>
@@ -288,7 +262,11 @@ export function LetterEditor({
 
         <button
           type="button"
-          onClick={() => fileRef.current?.click()}
+          onClick={() =>
+            alert(
+              "🚀 Photo Upload is in Early Access.\n\nThis feature will be available in a future update of Chat With Ya! 💌"
+             )
+          }  
           className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-primary/35 bg-secondary/30 px-4 py-8 text-center transition-colors hover:border-primary/60 hover:bg-secondary/50"
         >
           <span className="grid size-12 place-items-center rounded-full bg-card text-primary shadow-sm">
@@ -302,6 +280,7 @@ export function LetterEditor({
         <input
           ref={fileRef}
           type="file"
+          disabled
           accept="image/png,image/jpeg"
           multiple
           className="hidden"

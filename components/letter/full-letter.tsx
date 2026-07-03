@@ -8,6 +8,14 @@ interface FullLetterProps {
   sender: string
   content: string
   mood: string
+  paper: string
+  color: string
+  writingStyle: "classic" | "handwritten" | "elegant"
+  photos: {
+    id: string
+    name: string
+    url: string
+  }[]  
   createdAt: string
 }
 
@@ -17,7 +25,12 @@ export default function FullLetter({
   sender,
   content,
   mood,
+  paper,
+  color,
+  writingStyle,
+  photos,
 }: FullLetterProps) {
+  console.log("FullLetter writingStyle:", writingStyle)
   return (
     <div className="space-y-3">
       <LetterLayout
@@ -26,9 +39,10 @@ export default function FullLetter({
         title={title}
         content={content}
         moodId={mood}
-        paperId="plain"
-        colorId="pink"
-        photos={[]}
+        paperId={paper}
+        colorId={color}
+        writingStyle={writingStyle}
+        photos={photos}
       />
     </div>
   )

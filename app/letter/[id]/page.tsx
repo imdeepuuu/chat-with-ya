@@ -27,15 +27,17 @@ export default async function LetterPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-[#FFF9F6] px-6 py-16">
       <FullLetter
-       title={letter.title}
-       recipient={letter.recipient}
-       sender={letter.sender}
-       content={letter.content}
-       mood={letter.mood}
-       paper={letter.paper}
-       color={letter.color}
-       createdAt={letter.created_at}
-      /> 
+        title={letter.title}
+        recipient={letter.recipient}
+        sender={letter.sender}
+        content={letter.content}
+        mood={letter.mood}
+        paper={letter.paper}
+        color={letter.color}
+        writingStyle={letter.writing_style}
+        photos={letter.photos ?? []}
+        createdAt={letter.created_at}
+      />
     </main>
   )
 }

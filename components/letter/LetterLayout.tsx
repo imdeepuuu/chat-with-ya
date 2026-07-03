@@ -57,6 +57,8 @@ const signatureClass =
     : writingStyle === "elegant"
       ? "font-serif text-3xl italic"
       : "font-script text-3xl"
+      
+console.log("LetterLayout writingStyle:", writingStyle)      
 
   return (
     <div className="space-y-3">
