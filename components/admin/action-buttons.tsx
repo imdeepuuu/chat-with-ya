@@ -17,7 +17,13 @@ export default function ActionButtons({ id }: Props) {
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
-            await approveLetter(id);
+            try {
+              console.log("Calling approveLetter", id);
+              await approveLetter(id);
+              console.log("approveLetter finished");
+            } catch (e) {
+              console.error("approveLetter failed:", e);
+            }    
           })
         }
         style={{
