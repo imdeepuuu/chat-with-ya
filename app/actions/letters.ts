@@ -4,22 +4,30 @@ import { createClient } from "@/lib/supabase-server";
 import { revalidatePath } from "next/cache";
 
 export async function approveLetter(id: string) {
-  const supabase = await createClient();
+  try {
+    console.log("Approve called with:", id)
 
-  const { data, error } = await supabase
-    .from("letters")
-    .update({ status: "approved" })
-    .eq("id", id)
-    .select();
+    const supabase = await createClient()
 
-  console.log("Approve Result:", data);
-  console.log("Approve Error:", error);
+    const { data, error } = await supabase
+      .from("letters")
+      .update({ status: "approved" })
+      .eq("id", id)
+      .select()
 
-  if (error) {
-    throw new Error(error.message);
+    console.log("Update result:", data)
+
+    if (error) {
+      console.error("Supabase error:", error)
+      throw error
+    }
+
+    revalidatePath("/admin")
+    revalidatePath("/")
+  } catch (err) {
+    console.error("approveLetter crashed:", err)
+    throw err
   }
-
-  revalidatePath("/admin");
 }
 
 export async function rejectLetter(id: string) {
