@@ -24,7 +24,7 @@ export function SocialButtons() {
      const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/auth/callback?next=/write",
+        redirectTo: `${window.location.origin}/auth/callback?next=/write`
         
       },
     })
@@ -39,7 +39,7 @@ export function SocialButtons() {
     await supabase.auth.signInWithOAuth({
       provider: "facebook",
       options: {
-        redirectTo: "http://localhost:3000/auth/callback",
+        redirectTo: `${window.location.origin}/auth/callback?next=/write`,
       },
     })
   }
