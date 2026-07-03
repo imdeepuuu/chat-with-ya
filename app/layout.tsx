@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Caveat } from 'next/font/google'
+import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google"
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
@@ -9,16 +9,16 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const caveat = Caveat({
-  variable: '--font-script',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const patrickHand = Patrick_Hand({
+  variable: "--font-script",
+  subsets: ["latin"],
+  weight: "400",
 })
 
 export const metadata: Metadata = {
   title: 'Chat With Ya — Find letters written for you',
   description:
-    'Sign in to Chat With Ya and discover heartfelt letters written just for you.',
+    'Write heartfelt letters, preserve memories, and connect through meaningful words.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -30,10 +30,7 @@ export const metadata: Metadata = {
         url: '/icon-dark-32x32.png',
         media: '(prefers-color-scheme: dark)',
       },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
+      
     ],
     apple: '/apple-icon.png',
   },
@@ -52,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`light ${geistSans.variable} ${geistMono.variable} ${caveat.variable} bg-background`}
+      className={`light ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} bg-background`}
     >
       <body className="font-sans antialiased">
         {children}

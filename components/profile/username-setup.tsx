@@ -10,7 +10,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useEffect } from "react"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/lib/supabase-browser"
+
+const supabase = createClient()
 
 export default function UsernameSetup() {
     const [username, setUsername] = useState("")

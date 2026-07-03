@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils"
 const links = [
   { label: "Home", href: "/" },
   { label: "Write", href: "/login" },
-  { label: "Saved", href: "/login" },
   { label: "My Space", href: "/login" },
   { label: "Profile", href: "/login" },
 ]
@@ -58,9 +57,6 @@ export default function SiteNav() {
   switch (label) {
     case "Write":
       router.push("/write")
-      break
-    case "Saved":
-      router.push("/saved")
       break
     case "My Space":
       router.push("/dashboard")

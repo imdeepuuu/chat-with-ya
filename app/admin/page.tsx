@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import DashboardHeader from "@/components/admin/dashboard-header";
 import LetterCard from "@/components/admin/letter-card";
 import StatsCards from "@/components/admin/stats-cards";
@@ -6,6 +7,33 @@ import { createClient } from "@/lib/supabase-server";
 export default async function AdminPage() {
   const supabase = await createClient();
 
+  // -----------------------------
+  // Check logged in user
+  // -----------------------------
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/");
+  }
+
+  // -----------------------------
+  // Check admin role
+  // -----------------------------
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || profile.role !== "admin") {
+    redirect("/");
+  }
+
+  // -----------------------------
+  // Load pending letters
+  // -----------------------------
   const { data: pendingLetters, error } = await supabase
     .from("letters")
     .select("*")
@@ -33,7 +61,6 @@ export default async function AdminPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50">
       <div className="mx-auto max-w-7xl p-10">
-
         <DashboardHeader />
 
         <StatsCards
@@ -64,7 +91,6 @@ export default async function AdminPage() {
             ))}
           </div>
         )}
-
       </div>
     </main>
   );

@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase-browser"
 
 import type { ComponentType, SVGProps } from "react"
-import { FacebookIcon, GoogleIcon, XIcon } from "./brand-icons"
+import { GoogleIcon } from "./brand-icons"
 
 type Provider = {
   name: string
@@ -13,8 +13,6 @@ type Provider = {
 
 const providers: Provider[] = [
   { name: "Google", label: "Continue with Google", Icon: GoogleIcon },
-  { name: "Facebook", label: "Continue with Facebook", Icon: FacebookIcon },
-  { name: "X", label: "Continue with X", Icon: XIcon },
 ]
 
 export function SocialButtons() {

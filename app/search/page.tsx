@@ -21,16 +21,14 @@ export default async function SearchPage({
     .order("created_at", { ascending: false })
 
   return (
-    <main className="min-h-screen bg-[#FFF9F6] px-4 py-12">
+    <main className="min-h-screen bg-gradient-to-b from-[#FFF9F6] via-[#FFF7F8] to-[#FFFDFB] px-4 py-12">
       <div className="mx-auto max-w-5xl">
 
-        <h1 className="mb-2 text-4xl font-bold">
-          Letters for "{q}"
-        </h1>
+        <h1 className="text-5xl font-bold tracking-tight text-neutral-800">💌 Letters for <span className="text-rose-500">&quot;{q}&quot;</span></h1>
 
-        <p className="mb-8 text-gray-500">
-          Click a letter to read the full message.
-        </p>
+        <p className="mt-3 text-lg text-gray-500">Every letter carries a memory, a feeling, or words left unsaid.</p>
+
+        {letters && letters.length > 0 && (<div className="mt-6 mb-8 inline-flex rounded-full bg-rose-100 px-4 py-2 text-sm font-semibold text-rose-700">{letters.length} {letters.length===1?"Letter":"Letters"} Found</div>)}
 
         {letters && letters.length > 0 ? (
           <div className="space-y-6">
@@ -38,7 +36,7 @@ export default async function SearchPage({
               <Link
                 key={letter.id}
                 href={`/letter/${letter.id}`}
-                className="block rounded-3xl border border-rose-100 bg-white p-8 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="group relative block overflow-hidden rounded-[28px] border border-rose-100/80 bg-white/90 p-6 shadow-[0_10px_30px_rgba(244,114,182,0.12)] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-rose-200 hover:shadow-[0_20px_45px_rgba(244,114,182,0.18)]"
               >
                 <div className="flex items-center justify-between">
 

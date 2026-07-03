@@ -222,6 +222,36 @@ export function LetterEditor({
         </div>
       </SectionCard>
 
+
+      {/* ---- Writing Style ---- */}
+      <SectionCard>
+        <Label hint="Choose how your letter feels">Writing Style</Label>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          {[
+            { id: "classic", title: "Classic", cls: "font-sans", sample: "Simple and timeless" },
+            { id: "handwritten", title: "Handwritten", cls: "font-handwritten", sample: "Feels like a handwritten letter" },
+            { id: "elegant", title: "Elegant", cls: "font-serif italic", sample: "Graceful and refined" },
+          ].map((style) => {
+            const active = state.writingStyle === style.id
+            return (
+              <button
+                key={style.id}
+                type="button"
+                onClick={() => set("writingStyle", style.id as any)}
+                className={`rounded-2xl border p-4 text-left transition-all ${
+                  active
+                    ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                    : "border-border hover:border-primary/40"
+                }`}
+              >
+                <p className="font-semibold">{style.title}</p>
+                <p className={`mt-2 text-lg ${style.cls}`}>{style.sample}</p>
+              </button>
+            )
+          })}
+        </div>
+      </SectionCard>
+
       {/* ---- Letter color ---- */}
       <SectionCard>
         <Label hint="Tints the page beneath your words">Letter Color</Label>

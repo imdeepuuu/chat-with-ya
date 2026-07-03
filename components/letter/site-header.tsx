@@ -63,15 +63,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-4 z-40 px-4">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full border border-border/70 bg-card/80 px-4 py-2.5 shadow-[0_10px_40px_-20px_rgba(190,80,130,0.5)] backdrop-blur-md sm:px-6">
-        <a href="#" className="flex items-center gap-2.5">
-          <img
-          src="/Logo.png"
-          alt="Chat With Ya"
-          className="h-16 w-16 object-contain"
-          />
-          <span className="font-heading text-lg font-semibold tracking-tight text-primary">
-            Chat With Ya
-          </span>
+       <a href="/" className="flex items-center">
+        <img
+           src="/Logo.png"
+           alt="Chat With Ya"
+           className="h-20 w-auto object-contain"
+          /> 
         </a>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
