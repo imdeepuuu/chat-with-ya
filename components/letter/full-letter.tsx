@@ -29,8 +29,14 @@ export default function FullLetter({
   color,
   writingStyle,
   photos,
+  createdAt,
 }: FullLetterProps) {
-  console.log("FullLetter writingStyle:", writingStyle)
+  console.log("FULL PROPS", {
+    createdAt,
+    recipient,
+    sender,
+    title,
+  })  
   return (
     <div className="space-y-3">
       <LetterLayout
@@ -42,6 +48,7 @@ export default function FullLetter({
         paperId={paper}
         colorId={color}
         writingStyle={writingStyle}
+        createdAt={createdAt}
         photos={photos}
       />
     </div>

@@ -10,6 +10,7 @@ interface LetterLayoutProps {
   paperId: string
   colorId: string
   writingStyle: "classic" | "handwritten" | "elegant"
+  createdAt: string
   photos?: {
     id: string
     name: string
@@ -26,6 +27,7 @@ export default function LetterLayout({
   paperId,
   colorId,
   writingStyle,
+  createdAt,
   photos = [],
 }: LetterLayoutProps) {
   // Keep these until we reconnect paper/color.
@@ -58,7 +60,6 @@ const signatureClass =
       ? "font-serif text-3xl italic"
       : "font-script text-3xl"
       
-console.log("LetterLayout writingStyle:", writingStyle)      
 
   return (
     <div className="space-y-3">
@@ -105,11 +106,21 @@ console.log("LetterLayout writingStyle:", writingStyle)
             <div className="flex flex-col items-end gap-3">
 
               <span className="text-sm text-[#9a6b7c]">
-                {new Intl.DateTimeFormat("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                }).format(new Date())}  
+                {(() => {
+                  
+
+                  const date =
+                   createdAt && !isNaN(new Date(createdAt).getTime())
+                    ? new Date(createdAt)
+                    : new Date()
+                  return new Intl.DateTimeFormat("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  }).format(date)
+                })()}      
+
+
               </span>
 
               <span

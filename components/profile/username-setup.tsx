@@ -66,23 +66,31 @@ export default function UsernameSetup() {
         loadUser()
     }, []) 
 
-    async function saveUsername() {
+    async function saveUsername() {  
+         
         const {
             data: { user },
         } = await supabase.auth.getUser()
-        if (!user) return
         
-        const { error } = await supabase
-         .from("profiles")
-         .update({
+        
+
+        if (!user) return
+
+        const { data, error } = await supabase
+          .from("profiles")
+          .update({
             username,
          })
-         .eq("id", user.id)
+          .eq("id", user.id)
+          .select()
          
-         if (!error) {
+         
+
+        if (!error) {
             window.location.href = "/write"
-         }
-        }        
+          }
+        }     
+        
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <Card className="w-full max-w-md">

@@ -23,6 +23,9 @@ export default async function LetterPage({ params }: Props) {
   if (!letter) {
     notFound()
   }
+  console.log("LETTER FROM DB");
+  console.log(letter);
+  console.log("created_at =", letter.created_at);
 
   return (
     <main className="min-h-screen bg-[#FFF9F6] px-6 py-16">
